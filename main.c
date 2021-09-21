@@ -79,6 +79,12 @@ int do_func(char *command, char *argument, unsigned int line_n, stack_t **stack)
 		{"div", &f_div},
 		{"mul", &f_mul},
 		{"mod", &f_mod},
+		{"pchar", &f_pchar},
+		{"pstr", &f_pstr},
+		{"rotl", &f_rotl},
+		{"rotr", &f_rotr},
+		{"stack", &f_stack},
+		{"queue", &f_queue},
 		{NULL, NULL}
 	};
 	
