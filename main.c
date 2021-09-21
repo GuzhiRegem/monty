@@ -1,5 +1,17 @@
 #include "monty.h"
 
+int do_func(char *command, char *argument, unsigned int line_n, stack_t **stack);
+void free_s(stack_t **stack)
+{
+	stack_t *ptr;
+
+	ptr = *stack;
+	while (ptr)
+	{
+		free(ptr);
+		ptr = ptr->next;
+	}
+}
 int main(int argc, char**argv)
 {
 	FILE *file;
@@ -8,7 +20,9 @@ int main(int argc, char**argv)
 	char *buffer;
 	char **arguments;
 	unsigned int line_n = -1;
+	int error;
 
+	stack_t *stack_o = NULL;
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
@@ -38,15 +52,62 @@ int main(int argc, char**argv)
 			continue;
 		if (arguments[0][0] == '#')
 			continue;
-		do_func(arguments[0], arguments[1], line_n, stack);
+		error = do_func(arguments[0], arguments[1], line_n, &stack_o);
 		free(arguments);
+		if (error != 0)
+			break;
 	}
+	free_s(&stack_o);
 	free(buffer);
 	fclose(file);
-	return (0);
+	return (0 ? !error : EXIT_FAILURE);
 }
 
-void do_func(char *command, char *argument, unsigned int line_n, stack_t **stack)
+int do_func(char *command, char *argument, unsigned int line_n, stack_t **stack)
 {
+	int i, found = 0;
+	instruction_t comms[] =
+	{
+		{"push", &f_push},
+		{"pall", &f_pall},
+		{"pint", &f_pint},
+		{"pop", &f_pop},
+		{"swap", &f_swap},
+		{"add", &f_add},
+		{"nop", &f_nop},
+		{"sub", &f_sub},
+		{"div", &f_div},
+		{"mul", &f_mul},
+		{"mod", &f_mod},
+		{NULL, NULL}
+	};
 	
+	for (i = 0; comms[i].opcode; i++)
+	{
+		if (strcmp(command, comms[i].opcode) == 0)
+		{
+			if (i == 0)
+			{
+				if (argument)
+				{
+					(comms[i].f)(stack, line_n);
+					(*stack)->n = atoi(argument);
+				}
+				else
+				{
+					fprintf(stderr, "L%i: usage: push integer\n", line_n);
+					return (1);
+				}
+			}
+			else
+				(comms[i].f)(stack, line_n);
+			found = 1;
+		}
+	}
+	if (!found)
+	{
+		fprintf(stderr, "L%i: unknown instruction %s\n", line_n, command);
+		return (1);
+	}
+	return (0);
 }

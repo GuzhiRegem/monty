@@ -1,5 +1,17 @@
 #include "monty.h"
 
+void f_push(stack_t **stack, unsigned int line_number)
+{
+	stack_t *new;
+
+	line_number = line_number;
+	new = malloc(sizeof(stack_t));
+	if (!new)
+		return;
+	new->next = *stack;
+	new->prev = NULL;
+	*stack = new;
+}
 void f_pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_node = *stack;
@@ -13,4 +25,8 @@ void f_pall(stack_t **stack, unsigned int line_number)
                 new_node = new_node->next;
                 }
         }
+}
+void f_pint(stack_t **stack, unsigned int line_number)
+{
+	printf("%p, %i\n", (void *)stack, line_number);
 }
