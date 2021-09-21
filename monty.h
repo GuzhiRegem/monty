@@ -46,5 +46,8 @@ void f_sub(stack_t **stack, unsigned int line_number);
 void f_div(stack_t **stack, unsigned int line_number);
 void f_mul(stack_t **stack, unsigned int line_number);
 void f_mod(stack_t **stack, unsigned int line_number);
+char **str_to_arguments(char *buffer, char sep);
+void do_func(char *command, char *argument, unsigned int line_n, stack_t **stack);
 
+stack_t stack_o;
 #endif
