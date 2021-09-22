@@ -7,7 +7,7 @@ void f_push(stack_t **stack, unsigned int line_number)
 	line_number = line_number;
 	new = malloc(sizeof(stack_t));
 	if (!new)
-		return;
+		exit(EXIT_FAILURE);
 	new->next = *stack;
 	new->prev = NULL;
 	*stack = new;
@@ -22,7 +22,7 @@ void f_pall(stack_t **stack, unsigned int line_number)
                 while (new_node != NULL)
                 {
                         printf("%i\n", new_node->n);
-                new_node = new_node->next;
+              		new_node = new_node->next;
                 }
         }
 }
