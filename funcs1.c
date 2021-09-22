@@ -28,5 +28,6 @@ void f_pall(stack_t **stack, unsigned int line_number)
 }
 void f_pint(stack_t **stack, unsigned int line_number)
 {
-	printf("%p, %i\n", (void *)stack, line_number);
+	line_number = line_number;
+	printf("%i\n", (*stack)->n);
 }
