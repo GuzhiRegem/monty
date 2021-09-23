@@ -54,6 +54,9 @@ void f_rotr(stack_t **stack, unsigned int line_number);
 void f_stack(stack_t **stack, unsigned int line_number);
 void f_queue(stack_t **stack, unsigned int line_number);
 char **str_to_arguments(char *buffer, char sep);
-
-extern stack_t *stack_o;
+void free_args(char **args);
+void free_s(stack_t **stack);
+int is_num(char *str);
+void _ex(stack_t **stack, char *str);
+instruction_t found_f(char *str);
 #endif

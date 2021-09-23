@@ -1,28 +1,70 @@
 #include "monty.h"
 
-int do_func(char *command, char *argument, unsigned int line_n, stack_t **stack);
-void free_s(stack_t **stack)
+void do_comm(stack_t **stack, instruction_t comm, int num, unsigned int line_n)
 {
-	stack_t *ptr;
+	(comm.f)(stack, line_n);
+	if (strcmp(comm.opcode, "push") == 0)
+		(*stack)->n = num;
+}
+void read_file(char *filename)
+{
+	stack_t *stack_o = NULL;
+	char *buffer;
+	char **arguments;
+	ssize_t characters = 0;
+	size_t bufsize = 1024;
+	unsigned int line_n = 0, i;
+	instruction_t comm;
+	int num, is_n = 1;
+	FILE *file;
 
-	ptr = *stack;
-	while (ptr)
+	while (1)
 	{
-		free(ptr);
-		ptr = ptr->next;
+		buffer = malloc(bufsize);
+		if (!buffer)
+			_ex(&stack_o, "Error: malloc failed\n");
+		file = fopen(filename, "r");
+		for (i = 0; i < (line_n + 1); i++)
+			characters = getline(&buffer, &bufsize, file);
+		fclose(file);
+		if (characters == -1)
+		{
+			free(buffer);
+			break;
+		}
+		if (buffer[characters - 1] == '\n')
+			buffer[characters - 1] = 0;
+		arguments = str_to_arguments(buffer, ' ');
+		free(buffer);
+		if (!arguments)
+			_ex(&stack_o, "Error: malloc failed\n");
+		if (arguments[0][0] == '#')
+		{
+			free_args(arguments);
+			continue;
+		}
+		comm = found_f(arguments[0]);
+		if (arguments[1])
+		{
+			is_n = is_num(arguments[1]);
+			num = atoi(arguments[1]);
+		}
+		if ((strcmp(comm.opcode, "push") == 0) && (!is_n || !arguments[1]))
+		{
+			free_args(arguments);
+			fprintf(stderr, "L%i: usage: push integer\n", line_n);
+			_ex(&stack_o, NULL);
+		}
+		free_args(arguments);
+		do_comm(&stack_o, comm, num, line_n);
+		line_n++;
 	}
+	free_s(&stack_o);
 }
 int main(int argc, char**argv)
 {
 	FILE *file;
-	size_t bufsize = 1024;
-	ssize_t characters;
-	char *buffer;
-	char **arguments;
-	unsigned int line_n = -1;
-	int error;
 
-	stack_t *stack_o = NULL;
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
@@ -34,86 +76,7 @@ int main(int argc, char**argv)
 		fprintf(stderr, "Error: Can't open file %s\n", argv[0]);
 		return (EXIT_FAILURE);
 	}
-	buffer = malloc(bufsize);
-	if (!buffer)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		fclose(file);
-		return (EXIT_FAILURE);
-	}
-
-	while ((characters = getline(&buffer, &bufsize, file)) != -1)
-	{
-		line_n++;
-		if (buffer[characters - 1] == '\n')
-			buffer[characters - 1] = 0;
-		arguments = str_to_arguments(buffer, ' ');
-		if (!arguments)
-			continue;
-		if (arguments[0][0] == '#')
-			continue;
-		error = do_func(arguments[0], arguments[1], line_n, &stack_o);
-		free(arguments);
-		if (error != 0)
-			break;
-	}
-	free_s(&stack_o);
-	free(buffer);
 	fclose(file);
-	return (0 ? !error : EXIT_FAILURE);
-}
-
-int do_func(char *command, char *argument, unsigned int line_n, stack_t **stack)
-{
-	int i, found = 0;
-	instruction_t comms[] =
-	{
-		{"push", &f_push},
-		{"pall", &f_pall},
-		{"pint", &f_pint},
-		{"pop", &f_pop},
-		{"swap", &f_swap},
-		{"add", &f_add},
-		{"nop", &f_nop},
-		{"sub", &f_sub},
-		{"div", &f_div},
-		{"mul", &f_mul},
-		{"mod", &f_mod},
-		{"pchar", &f_pchar},
-		{"pstr", &f_pstr},
-		{"rotl", &f_rotl},
-		{"rotr", &f_rotr},
-		{"stack", &f_stack},
-		{"queue", &f_queue},
-		{NULL, NULL}
-	};
-	
-	for (i = 0; comms[i].opcode; i++)
-	{
-		if (strcmp(command, comms[i].opcode) == 0)
-		{
-			if (i == 0)
-			{
-				if (argument)
-				{
-					(comms[i].f)(stack, line_n);
-					(*stack)->n = atoi(argument);
-				}
-				else
-				{
-					fprintf(stderr, "L%i: usage: push integer\n", line_n);
-					return (1);
-				}
-			}
-			else
-				(comms[i].f)(stack, line_n);
-			found = 1;
-		}
-	}
-	if (!found)
-	{
-		fprintf(stderr, "L%i: unknown instruction %s\n", line_n, command);
-		return (1);
-	}
+	read_file(argv[1]);
 	return (0);
 }
