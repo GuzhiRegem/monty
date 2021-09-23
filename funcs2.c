@@ -31,7 +31,10 @@ void f_swap(stack_t **stack, unsigned int line_number)
 	if (first)
 		second = first->next;
 	if (!first || !second)
+	{
 		fprintf(stderr, "L%i: can't swap, stack too short\n", line_number);
+		_ex(stack, NULL);
+	}
 	third = second->next;
 	first->prev = second;
 	first->next = third;
