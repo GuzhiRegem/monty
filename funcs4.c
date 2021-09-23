@@ -67,7 +67,7 @@ void f_pchar(stack_t **stack, unsigned int line_number)
 		_ex(stack, NULL);
 	}
 	num = (*stack)->n;
-	if ((num < 0) || (num > 255))
+	if ((num < 0) || (num >= 255))
 	{
 		fprintf(stderr, "L%i: can't pchar, value out of range\n", line_number);
 		_ex(stack, NULL);
