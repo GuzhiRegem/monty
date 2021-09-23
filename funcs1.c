@@ -1,5 +1,11 @@
 #include "monty.h"
 
+/**
+  *f_push - function
+  *@stack: stack
+  *@line_number: line number
+  *Return: nothing
+  */
 void f_push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new;
@@ -17,6 +23,12 @@ void f_push(stack_t **stack, unsigned int line_number)
 		(*stack)->prev = new;
 	*stack = new;
 }
+/**
+  *f_pall - function
+  *@stack: stack
+  *@line_number: line number
+  *Return: nothing
+  */
 void f_pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_node = *stack;
@@ -24,21 +36,27 @@ void f_pall(stack_t **stack, unsigned int line_number)
 	if (stack != NULL || *stack != NULL)
 	{
 		line_number = line_number;
-                while (new_node != NULL)
+		while (new_node != NULL)
 		{
-			printf("%d\n",new_node->n);
+			printf("%d\n", new_node->n);
 			new_node = new_node->next;
 		}
 	}
 }
+/**
+  *f_pint - function
+  *@stack: stack
+  *@line_number: line number
+  *Return: nothing
+  */
 void f_pint(stack_t **stack, unsigned int line_number)
 {
 	if (!*stack)
-        {
-                fprintf(stderr, "L%i: can't pint, stack empty\n", line_number);
+	{
+		fprintf(stderr, "L%i: can't pint, stack empty\n", line_number);
 		free_s(stack);
-                exit(EXIT_FAILURE);
-        }
+		exit(EXIT_FAILURE);
+	}
 
 	printf("%i\n", (*stack)->n);
 }

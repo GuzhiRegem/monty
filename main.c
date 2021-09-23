@@ -26,7 +26,7 @@ char **get_line(unsigned int line_n, char *filename, stack_t **stack)
 	if (characters == -1)
 	{
 		free(buffer);
-		exit (0);
+		exit(0);
 	}
 	if (buffer[characters - 1] == '\n')
 		buffer[characters - 1] = 0;
@@ -42,7 +42,7 @@ void read_file(char *filename)
 	instruction_t comm;
 	int num, is_n = 1;
 
-	for (line_n = 1;;line_n++)
+	for (line_n = 1; ; line_n++)
 	{
 		arguments = get_line(line_n, filename, &stack_o);
 		if (arguments[0][0] == '#' || !arguments[0][0])
@@ -56,7 +56,7 @@ void read_file(char *filename)
 			free_args(arguments);
 			fprintf(stderr, "L%i: unknown instruction\n", line_n);
 			_ex(&stack_o, NULL);
-		}	
+		}
 		if (arguments[1])
 		{
 			is_n = is_num(arguments[1]);
@@ -73,7 +73,7 @@ void read_file(char *filename)
 	}
 	free_s(&stack_o);
 }
-int main(int argc, char**argv)
+int main(int argc, char **argv)
 {
 	FILE *file;
 

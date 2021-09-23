@@ -2,47 +2,46 @@
 
 void free_s(stack_t **stack)
 {
-        stack_t *ptr, *next;
+	stack_t *ptr, *next;
 
 	if (!stack)
 		return;
-        ptr = *stack;
-        while (ptr)
-        {
+	ptr = *stack;
+	while (ptr)
+	{
 		next = ptr->next;
-                free(ptr);
-                ptr = next;
-        }
+		free(ptr);
+		ptr = next;
+	}
 }
 instruction_t found_f(char *str)
 {
-        int i;
-        instruction_t comms[] =
-        {
-                {"push", &f_push},
-                {"pall", &f_pall},
-                {"pint", &f_pint},
-                {"pop", &f_pop},
-                {"swap", &f_swap},
-                {"add", &f_add},
-                {"nop", &f_nop},
-                {"sub", &f_sub},
-                {"div", &f_div},
-                {"mul", &f_mul},
-                {"mod", &f_mod},
-                {"pchar", &f_pchar},
-                {"pstr", &f_pstr},
-                {"rotl", &f_rotl},
-                {"rotr", &f_rotr},
-                {"stack", &f_stack},
-                {"queue", &f_queue},
-                {NULL, NULL}
-        };
+	int i;
+	instruction_t comms[] = {
+		{"push", &f_push},
+		{"pall", &f_pall},
+		{"pint", &f_pint},
+		{"pop", &f_pop},
+		{"swap", &f_swap},
+		{"add", &f_add},
+		{"nop", &f_nop},
+		{"sub", &f_sub},
+		{"div", &f_div},
+		{"mul", &f_mul},
+		{"mod", &f_mod},
+		{"pchar", &f_pchar},
+		{"pstr", &f_pstr},
+		{"rotl", &f_rotl},
+		{"rotr", &f_rotr},
+		{"stack", &f_stack},
+		{"queue", &f_queue},
+		{NULL, NULL}
+	};
 
-        for (i = 0; comms[i].opcode; i++)
-                if (strcmp(str, comms[i].opcode) == 0)
-                        break;
-        return (comms[i]);
+	for (i = 0; comms[i].opcode; i++)
+		if (strcmp(str, comms[i].opcode) == 0)
+			break;
+	return (comms[i]);
 }
 void _ex(stack_t **stack, char *str)
 {
