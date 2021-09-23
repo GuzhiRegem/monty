@@ -37,7 +37,7 @@ void read_file(char *filename)
 		arguments = str_to_arguments(buffer, ' ');
 		free(buffer);
 		if (!arguments)
-			_ex(&stack_o, "Error: malloc failed\n");
+			continue;
 		if (arguments[0][0] == '#')
 		{
 			free_args(arguments);
