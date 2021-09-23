@@ -26,7 +26,8 @@ void read_file(char *filename)
 		file = fopen(filename, "r");
 		for (i = 0; i < (line_n); i++)
 			characters = getline(&buffer, &bufsize, file);
-		fclose(file);
+		if (file)
+			fclose(file);
 		if (characters == -1)
 		{
 			free(buffer);
@@ -79,7 +80,8 @@ int main(int argc, char**argv)
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		return (EXIT_FAILURE);
 	}
-	fclose(file);
+	if (file)
+		fclose(file);
 	read_file(argv[1]);
 	return (0);
 }

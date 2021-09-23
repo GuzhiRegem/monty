@@ -2,15 +2,16 @@
 
 void free_s(stack_t **stack)
 {
-        stack_t *ptr;
+        stack_t *ptr, *next;
 
 	if (!stack)
 		return;
         ptr = *stack;
         while (ptr)
         {
+		next = ptr->next;
                 free(ptr);
-                ptr = ptr->next;
+                ptr = next;
         }
 }
 instruction_t found_f(char *str)

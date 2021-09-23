@@ -26,7 +26,7 @@ void f_pall(stack_t **stack, unsigned int line_number)
                 line_number = line_number;
                 while (new_node != NULL)
                 {
-                        printf("%i\n", new_node->n);
+                        printf("%d\n",new_node->n);
               		new_node = new_node->next;
                 }
         }
