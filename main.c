@@ -18,13 +18,13 @@ void read_file(char *filename)
 	int num, is_n = 1;
 	FILE *file;
 
-	for (line_n = 0;;line_n++)
+	for (line_n = 1;;line_n++)
 	{
 		buffer = malloc(bufsize);
 		if (!buffer)
 			_ex(&stack_o, "Error: malloc failed\n");
 		file = fopen(filename, "r");
-		for (i = 0; i < (line_n + 1); i++)
+		for (i = 0; i < (line_n); i++)
 			characters = getline(&buffer, &bufsize, file);
 		fclose(file);
 		if (characters == -1)
