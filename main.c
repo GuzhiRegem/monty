@@ -13,12 +13,12 @@ void read_file(char *filename)
 	char **arguments;
 	ssize_t characters = 0;
 	size_t bufsize = 1024;
-	unsigned int line_n = 0, i;
+	unsigned int line_n, i;
 	instruction_t comm;
 	int num, is_n = 1;
 	FILE *file;
 
-	while (1)
+	for (line_n = 0;;line_n++)
 	{
 		buffer = malloc(bufsize);
 		if (!buffer)
@@ -36,14 +36,18 @@ void read_file(char *filename)
 			buffer[characters - 1] = 0;
 		arguments = str_to_arguments(buffer, ' ');
 		free(buffer);
-		if (!arguments)
-			continue;
-		if (arguments[0][0] == '#')
+		if (arguments[0][0] == '#' || !arguments[0][0])
 		{
 			free_args(arguments);
 			continue;
 		}
 		comm = found_f(arguments[0]);
+		if (!comm.opcode)
+		{
+			free_args(arguments);
+			fprintf(stderr, "L%i: unknown instruction", line_n);
+			_ex(&stack_o, NULL);
+		}	
 		if (arguments[1])
 		{
 			is_n = is_num(arguments[1]);
@@ -57,7 +61,6 @@ void read_file(char *filename)
 		}
 		free_args(arguments);
 		do_comm(&stack_o, comm, num, line_n);
-		line_n++;
 	}
 	free_s(&stack_o);
 }
