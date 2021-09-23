@@ -38,7 +38,7 @@ void f_mod(stack_t **stack, unsigned int line_number)
 		second = first->next;
 	if (!first || !second)
 	{
-		fprintf(stderr, "L%i: can't div, stack too short\n", line_number);
+		fprintf(stderr, "L%i: can't mod, stack too short\n", line_number);
 		_ex(stack, NULL);
 	}
 	if (!first->n)
