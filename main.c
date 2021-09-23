@@ -41,6 +41,7 @@ char **get_line(unsigned int line_n, char *filename, stack_t **stack)
 	if (characters == -1)
 	{
 		free(buffer);
+		free_s(stack);
 		exit(0);
 	}
 	if (buffer[characters - 1] == '\n')
