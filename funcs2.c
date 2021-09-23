@@ -50,5 +50,19 @@ void f_swap(stack_t **stack, unsigned int line_number)
   */
 void f_add(stack_t **stack, unsigned int line_number)
 {
-	printf("stack: %p l_num: %i", (void *)stack, line_number);
+	stack_t *first = NULL, *second = NULL;
+
+	first = *stack;
+	if (first)
+		second = first->next;
+	if (!first || !second)
+	{
+		fprintf(stderr, "L%i: can't add, stack too short\n", line_number);
+		_ex(stack, NULL);
+	}
+	second->n += first->n;
+	free(first);
+	second->prev = NULL;
+	*stack = second;
+
 }
