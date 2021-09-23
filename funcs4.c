@@ -59,5 +59,18 @@ void f_mod(stack_t **stack, unsigned int line_number)
   */
 void f_pchar(stack_t **stack, unsigned int line_number)
 {
-	    printf("stack: %p l_num: %i", (void *)stack, line_number);
+	int num;
+
+	if (!*stack)
+	{
+		fprintf(stderr, "L%i: can't pchar, stack empty\n", line_number);
+		_ex(stack, NULL);
+	}
+	num = (*stack)->n;
+	if ((num < 0) || (num > 255))
+	{
+		fprintf(stderr, "L%i: can't pchar, value out of range", line_number);
+		_ex(stack, NULL);
+	}
+	printf("%i\n", (*stack)->n);
 }
