@@ -74,8 +74,8 @@ void read_file(char *filename)
 		comm = found_f(arguments[0]);
 		if (!comm.opcode)
 		{
+			fprintf(stderr, "L%i: unknown instruction %s\n", line_n, arguments[0]);
 			free_args(arguments);
-			fprintf(stderr, "L%i: unknown instruction\n", line_n);
 			_ex(&stack_o, NULL);
 		}
 		if (arguments[1])
