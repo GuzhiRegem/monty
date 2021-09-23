@@ -8,6 +8,7 @@
 void f_pop(stack_t **stack, unsigned int line_number)
 {
 	stack_t *nex;
+
 	if (!*stack)
 	{
 		fprintf(stderr, "L%i: can't pop an empty stack\n", line_number);

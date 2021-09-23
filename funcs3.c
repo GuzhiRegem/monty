@@ -19,7 +19,20 @@ void f_nop(stack_t **stack, unsigned int line_number)
   */
 void f_sub(stack_t **stack, unsigned int line_number)
 {
-	printf("stack: %p l_num: %i", (void *)stack, line_number);
+	stack_t *first = NULL, *second = NULL;
+
+	first = *stack;
+	if (first)
+		second = first->next;
+	if (!first || !second)
+	{
+		fprintf(stderr, "L%i: can't sub, stack too short\n", line_number);
+		_ex(stack, NULL);
+	}
+	second->n -= first->n;
+	free(first);
+	second->prev = NULL;
+	*stack = second;
 }
 /**
   *f_div - function
@@ -29,5 +42,24 @@ void f_sub(stack_t **stack, unsigned int line_number)
   */
 void f_div(stack_t **stack, unsigned int line_number)
 {
-	printf("stack: %p l_num: %i", (void *)stack, line_number);
+	stack_t *first = NULL, *second = NULL;
+
+	first = *stack;
+	if (first)
+		second = first->next;
+	if (!first || !second)
+	{
+		fprintf(stderr, "L%i: can't div, stack too short\n", line_number);
+		_ex(stack, NULL);
+	}
+	if (!first->n)
+	{
+		fprintf(stderr, "L%i: division by zero\n", line_number);
+		_ex(stack, NULL);
+	}
+	second->n /= first->n;
+	free(first);
+	second->prev = NULL;
+	*stack = second;
+
 }
