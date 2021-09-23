@@ -50,11 +50,10 @@ void _ex(stack_t **stack, char *str)
 }
 int is_num(char *str)
 {
-	int i, found;
+	int found;
 
 	found = 1;
-	for (i = 0; str[i]; i++)
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			found = 0;
+	if ((size_t)snprintf(NULL, 0, "%d", atoi(str)) != strlen(str))
+		found--;
 	return (found);
 }
