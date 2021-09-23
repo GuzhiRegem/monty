@@ -8,7 +8,8 @@
   */
 void f_nop(stack_t **stack, unsigned int line_number)
 {
-	printf("stack: %p l_num: %i", (void *)stack, line_number);
+	stack = stack;
+	line_number = line_number;
 }
 /**
   *f_sub - function
