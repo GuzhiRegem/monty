@@ -6,37 +6,45 @@ void do_comm(stack_t **stack, instruction_t comm, int num, unsigned int line_n)
 	if (strcmp(comm.opcode, "push") == 0)
 		(*stack)->n = num;
 }
+char **get_line(unsigned int line_n, char *filename, stack_t **stack)
+{
+	char *buffer;
+	size_t bufsize = 1024;
+	ssize_t characters;
+	FILE *file;
+	char **arguments;
+	unsigned int i;
+
+	buffer = malloc(bufsize + 1);
+	if (!buffer)
+		_ex(stack, "Error: malloc failed\n");
+	file = fopen(filename, "r");
+	for (i = 0; i < (line_n); i++)
+		characters = getline(&buffer, &bufsize, file);
+	if (file)
+		fclose(file);
+	if (characters == -1)
+	{
+		free(buffer);
+		exit (0);
+	}
+	if (buffer[characters - 1] == '\n')
+		buffer[characters - 1] = 0;
+	arguments = str_to_arguments(buffer, ' ');
+	free(buffer);
+	return (arguments);
+}
 void read_file(char *filename)
 {
 	stack_t *stack_o = NULL;
-	char *buffer;
 	char **arguments;
-	ssize_t characters = 0;
-	size_t bufsize = 1024;
-	unsigned int line_n, i;
+	unsigned int line_n;
 	instruction_t comm;
 	int num, is_n = 1;
-	FILE *file;
 
 	for (line_n = 1;;line_n++)
 	{
-		buffer = malloc(bufsize + 1);
-		if (!buffer)
-			_ex(&stack_o, "Error: malloc failed\n");
-		file = fopen(filename, "r");
-		for (i = 0; i < (line_n); i++)
-			characters = getline(&buffer, &bufsize, file);
-		if (file)
-			fclose(file);
-		if (characters == -1)
-		{
-			free(buffer);
-			break;
-		}
-		if (buffer[characters - 1] == '\n')
-			buffer[characters - 1] = 0;
-		arguments = str_to_arguments(buffer, ' ');
-		free(buffer);
+		arguments = get_line(line_n, filename, &stack_o);
 		if (arguments[0][0] == '#' || !arguments[0][0])
 		{
 			free_args(arguments);
