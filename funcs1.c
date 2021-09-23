@@ -31,11 +31,9 @@ void f_pall(stack_t **stack, unsigned int line_number)
 }
 void f_pint(stack_t **stack, unsigned int line_number)
 {
- 	line_number = line_number;
-
 	if (!*stack)
         {
-                fprintf(stderr, "can't pint, stack empty\n");
+                fprintf(stderr, "L%i: can't pint, stack empty\n", line_number);
 		free_s(stack);
                 exit(EXIT_FAILURE);
         }
