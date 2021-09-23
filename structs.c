@@ -4,6 +4,8 @@ void free_s(stack_t **stack)
 {
         stack_t *ptr;
 
+	if (!stack)
+		return;
         ptr = *stack;
         while (ptr)
         {

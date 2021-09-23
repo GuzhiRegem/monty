@@ -20,7 +20,7 @@ void read_file(char *filename)
 
 	for (line_n = 1;;line_n++)
 	{
-		buffer = malloc(bufsize);
+		buffer = malloc(bufsize + 1);
 		if (!buffer)
 			_ex(&stack_o, "Error: malloc failed\n");
 		file = fopen(filename, "r");

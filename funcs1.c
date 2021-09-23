@@ -13,6 +13,8 @@ void f_push(stack_t **stack, unsigned int line_number)
 	}
 	new->next = *stack;
 	new->prev = NULL;
+	if (*stack)
+		(*stack)->prev = new;
 	*stack = new;
 }
 void f_pall(stack_t **stack, unsigned int line_number)
