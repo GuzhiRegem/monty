@@ -1,5 +1,10 @@
 #include "monty.h"
 
+/**
+  *free_s - function
+  *@stack: stack
+  *Return: nothing
+  */
 void free_s(stack_t **stack)
 {
 	stack_t *ptr, *next;
@@ -14,6 +19,11 @@ void free_s(stack_t **stack)
 		ptr = next;
 	}
 }
+/**
+  *found_f - function
+  *@str: stack
+  *Return: nothing
+  */
 instruction_t found_f(char *str)
 {
 	int i;
@@ -43,6 +53,12 @@ instruction_t found_f(char *str)
 			break;
 	return (comms[i]);
 }
+/**
+  *_ex - function
+  *@stack: stack
+  *@str: line number
+  *Return: nothing
+  */
 void _ex(stack_t **stack, char *str)
 {
 	if (str)
@@ -50,6 +66,11 @@ void _ex(stack_t **stack, char *str)
 	free_s(stack);
 	exit(EXIT_FAILURE);
 }
+/**
+  *is_num - function
+  *@str: stack
+  *Return: nothing
+  */
 int is_num(char *str)
 {
 	int found;

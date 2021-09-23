@@ -1,11 +1,26 @@
 #include "monty.h"
 
+/**
+  *do_comm - function
+  *@stack: stack
+  *@comm: line number
+  *@num: num
+  *@line_n: line_n
+  *Return: nothing
+  */
 void do_comm(stack_t **stack, instruction_t comm, int num, unsigned int line_n)
 {
 	(comm.f)(stack, line_n);
 	if (strcmp(comm.opcode, "push") == 0)
 		(*stack)->n = num;
 }
+/**
+  *get_line- function
+  *@line_n: stack
+  *@filename: line number
+  *@stack: stack
+  *Return: nothing
+  */
 char **get_line(unsigned int line_n, char *filename, stack_t **stack)
 {
 	char *buffer;
@@ -34,6 +49,11 @@ char **get_line(unsigned int line_n, char *filename, stack_t **stack)
 	free(buffer);
 	return (arguments);
 }
+/**
+  *read_file - function
+  *@filename: stack
+  *Return: nothing
+  */
 void read_file(char *filename)
 {
 	stack_t *stack_o = NULL;
@@ -73,6 +93,12 @@ void read_file(char *filename)
 	}
 	free_s(&stack_o);
 }
+/**
+  *main - function
+  *@argc: stack
+  *@argv: line number
+  *Return: nothing
+  */
 int main(int argc, char **argv)
 {
 	FILE *file;

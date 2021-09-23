@@ -49,6 +49,11 @@ char **str_to_arguments(char *buffer, char sep)
 	}
 	return (out);
 }
+/**
+  *free_args - function
+  *@args: stack
+  *Return: nothing
+  */
 void free_args(char **args)
 {
 	int i;
