@@ -30,7 +30,20 @@ void f_pstr(stack_t **stack, unsigned int line_number)
   */
 void f_rotl(stack_t **stack, unsigned int line_number)
 {
-	printf("stack: %p l_num: %i", (void *)stack, line_number);
+	stack_t *first, *last;
+
+	line_number = line_number;
+	first = *stack;
+	if (first)
+		return;
+	last = first;
+	while (last->next)
+		last = last->next;
+	last->next = first;
+	*stack = first->next;
+	first->next = NULL;
+	first->prev = last;
+	(*stack)->prev = NULL;
 }
 /**
   *f_rotr - function
