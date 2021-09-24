@@ -34,7 +34,7 @@ void f_rotl(stack_t **stack, unsigned int line_number)
 
 	line_number = line_number;
 	first = *stack;
-	if (first)
+	if (!first)
 		return;
 	last = first;
 	while (last->next)
