@@ -7,7 +7,19 @@
   */
 void f_pstr(stack_t **stack, unsigned int line_number)
 {
-	printf("stack: %p l_num: %i", (void *)stack, line_number);
+	stack_t *ptr;
+	int num;
+
+	ptr = *stack;
+	while (ptr)
+	{
+		num = ptr->n;
+		if ((num <= 0) || (num > 126))
+			break;
+		printf("%c", num);
+		ptr = ptr->next;
+	}
+	printf("\n");
 }
 /**
   *f_rotl - function
